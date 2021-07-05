@@ -1,0 +1,72 @@
+
+
+
+image: zrpaplicacoes/docker-compose:latest
+variables:
+  DOCKER_DRIVER: overlay
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:nightly
+  COMPOSE_REFERENCE_IMAGE: gts_support:nightly
+  CONTAINER_NAME: gts_support
+  DOCKER_TLS_CERTDIR: ''
+cache:
+  untracked: true
+  key: '$CI_BUILD_REF_NAME'
+  paths:
+    - node_modules/
+services:
+  - docker:dind
+before_script:
+  - docker info
+  - docker-compose --version
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - cat test.env >> .env
+  - docker build -f dev.Dockerfile -t $COMPOSE_REFERENCE_IMAGE .
+  - docker-compose run specs yarn install
+  - docker-compose run specs yarn db:create
+  - docker-compose run specs yarn db:migrate
+
+stages:
+  - lint
+  - specs
+  - deploy
+
+lint:
+  stage: lint
+  script:
+    - docker-compose run specs yarn lint
+
+specs-unit:
+  stage: specs
+  script:
+    - docker-compose run specs yarn test
+
+specs-feature:
+  stage: specs
+  script:
+    - docker-compose run specs yarn test:e2e
+
+deploy-staging:
+  type: deploy
+  stage: deploy
+  image: ruby:latest
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+  only:
+    - dev
+
+deploy-production:
+  type: deploy
+  stage: deploy
+  image: ruby:latest
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU_API_KEY
+  only:
+    - prod

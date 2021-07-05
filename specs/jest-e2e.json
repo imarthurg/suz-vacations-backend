@@ -1,0 +1,17 @@
+{
+
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "../",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t)s$": "ts-jest"
+  },
+  "setupFilesAfterEnv": ["<rootDir>/specs/setup.ts"],
+  "moduleNameMapper": {
+    "@App/(.*)": "<rootDir>/src/$1",
+    "@Utils/(.*)": "<rootDir>/utils/$1",
+    "@Support/(.*)": "<rootDir>/specs/support/$1"
+  },
+  "verbose": true
+}

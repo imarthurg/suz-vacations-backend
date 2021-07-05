@@ -1,0 +1,144 @@
+- var primaryColor = '#005FA4';
+- var thirdColor = '#B680EF';
+- var whiteColor = '#fdfdfd';
+- var bodyTextColor = '#383838';
+- var logoURL = 'https://gts-demo.vercel.app/_next/image?url=%2Flogo.png&w=256&q=75';
+- var frontendAppURL = 'https://google.com.br';
+- var password = '1234';
+
+html 
+  head 
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700&display=swap", rel="stylesheet")
+    link(rel="stylesheet", href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css", integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p", crossorigin="anonymous")
+
+    style(type='text/css'). 
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Nunito Sans', sans-serif;
+        box-sizing: border-box;
+      }
+      .all {
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        background-color: #{whiteColor};
+      }
+      header, footer, .container{
+        width: 100%;
+      }
+      header, footer {
+        padding: 0 30px;
+        min-height: 125px;
+        background-color: #{primaryColor};
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      header p, footer p {
+        font-weight: 400;
+        color: #{whiteColor};
+      }
+      .logoContainer {
+        display: flex;
+        align-items: center;
+      }
+      img.logo {
+        height: 80px;
+      }
+      .container {
+        padding: 0 80px;  
+      }
+      .block {
+        margin: 30px 0;
+      }
+      .titleHighlight, .texthHighlight {
+        color: #{primaryColor};
+      }
+      .texthHighlight {
+        filter: brightness(150%);
+      }
+      .boxHighlight {
+        background-color: #005fa440;
+        padding: 15px;
+      }
+      .boxHighlight p {
+        margin-bottom: 0;
+        overflow-wrap: anywhere;
+      }
+      a {
+        text-decoration: none;
+      }
+      a.button {
+        display: inline-block;
+        background-color: #{primaryColor};
+        padding: 15px 30px;
+        color: #{whiteColor};
+        font-weight: 700;
+      }
+      a.button:hover {
+        filter: brightness(150%);
+      }
+      .actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .actions > * {
+        margin: 0 10px;
+      }
+      h1, h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+      p {
+        font-size: 1rem;
+        color: #{bodyTextColor};
+        margin-bottom: 10px;
+        text-align: justify;
+        font-weight: 300;
+      }
+      p.center {
+        text-align: center;
+      }
+      .centerContent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .dashRight {
+        margin-left: 15px;
+      }
+      .socials {
+        display: flex;
+      }
+      a.icon {
+        border: 2px solid #{whiteColor};
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        margin: 0 5px;
+      }
+      i {
+        color: #{whiteColor};
+      }
+
+  body  
+    .all
+      header.centerContent
+        .logoContainer
+          img(class='logo', src=logoURL, alt='Logo GTS')
+      
+      block content
+
+      footer.centerContent 
+        p.center
+          | Fale conosco:
+          br
+          b contato@gts.com.br

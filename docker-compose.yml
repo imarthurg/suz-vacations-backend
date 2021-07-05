@@ -1,0 +1,63 @@
+version: '3'
+
+volumes:
+  db-data:
+    driver: local
+
+services:
+  base: &base
+    hostname: base
+    image: suz_vacations:nightly
+    container_name: suz_vacations
+    ports: []
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - .:/home/node/app
+
+  db:
+    hostname: db
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: zrp@1234
+    ports:
+      - "15432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  pgadmin4:
+    hostname: pgadmin4
+    image: dpage/pgadmin4
+    ports:
+     - 6003:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'dev@zrp.com.br'
+      PGADMIN_DEFAULT_PASSWORD: 'zrp@1234'
+    depends_on:
+      - db
+
+  app: &app
+    <<: *base
+    hostname: app
+    command: yarn dev
+    env_file:
+      - .env
+    ports:
+      - 3003:3003
+    depends_on:
+      - db
+
+  specs:
+    <<: *base
+    command: /bin/ash -c "yarn test && yarn test:e2e"
+    env_file:
+      - test.env
+    depends_on:
+      - db
+
+  lint:
+    <<: *base
+    command: /bin/ash -c "yarn install && yarn lint"
